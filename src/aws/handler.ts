@@ -6,7 +6,7 @@ export async function endpoint(event, context, callback) {
   const ec2 = new AWS.EC2({apiVersion: '2016-11-15', region: 'us-west-2'});
 
   const params = parseEvent(event);
-
+  console.log(JSON.stringify(params));
   ec2.stopInstances(params, (err, data) => {
     if (err && err.code === 'DryRunOperation') {
       params.DryRun = false;
