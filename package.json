@@ -1,0 +1,32 @@
+{
+  "name": "example-serverless-tdd",
+  "version": "1.0.0",
+  "description": "Example demonstrates how to setup a simple HTTP GET endpoint",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "lint": "tslint 'src/**/*.ts{,x}'",
+    "test": "jest --config jestconfig.json --coverage --detectOpenHandles"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.14",
+    "@types/jest": "^23.3.7",
+    "aws-event-mocks": "0.0.0",
+    "jest": "^23.6.0",
+    "lambda-utilities": "^0.1.0",
+    "lamprox": "^0.15.0",
+    "serverless-mocha-plugin": "^1.3.2",
+    "serverless-webpack": "^5.2.0",
+    "ts-jest": "^23.10.4",
+    "ts-loader": "^5.2.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.3",
+    "webpack": "^4.23.1"
+  },
+  "dependencies": {
+    "@types/node": "^10.12.0",
+    "aws-sdk": "^2.342.0",
+    "install": "^0.12.2",
+    "npm": "^6.4.1"
+  }
+}
