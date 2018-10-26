@@ -12,7 +12,7 @@ describe('aws/handler', () => {
             const event = createEvent({
                 template: 'aws:scheduled',
                 merge: {
-                  instances: [''],
+                  instances: ['i-0817c3239d7db3d89'],
                   operation: 'STOP',
                   region: 'us-west-2',
                 },
