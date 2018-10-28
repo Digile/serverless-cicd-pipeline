@@ -6,13 +6,12 @@ phases:
       - npm run test
   build:
     commands:
-      - echo "Nothing to build here as it's node!"    
+      - npm run deploy:cicd #deploys to a cicd env     
   post_build:
     commands:
-      - aws cloudformation package --template-file template.yaml 
-                                        --s3-bucket sls-artifacts
-                                        --output-template-file output.yaml
-                                        --region $AWS_DEFAULT_REGION
+      #here we have to deploy to corresponging stage if staging we need to run some integration tests
+      #- npm run test:remote #run test invoking the lambda functions in the cicd env (integration tests)
+      # TODO: implement and run end to end tests.
 artifacts:
   type: zip
   files:
