@@ -9,7 +9,7 @@
     "lint": "tslint 'src/**/*.ts{,x}'",
     "test": "jest --config jestconfig.json --coverage --detectOpenHandles",
     "deploy": "./node_modules/.bin/serverless deploy | tee .build/deploy.out",
-    "deploy:cicd": "./node_modules/.bin/serverless deploy --stage cicd | tee .build/deploy.out",
+    "deploy:cicd": "./node_modules/.bin/serverless deploy --stage cicd | tee .build/deploy.out"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.14",
