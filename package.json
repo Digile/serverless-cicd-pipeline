@@ -8,8 +8,8 @@
     "clean": "rm -rf node_modules && rm -rf src/node_modules",
     "lint": "tslint 'src/**/*.ts{,x}'",
     "test": "jest --config jestconfig.json --coverage --detectOpenHandles",
-    "deploy": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy | tee .build/deploy.out",
-    "deploy:cicd": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy --stage cicd | tee .build/deploy.out"
+    "deploy": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy",
+    "deploy:cicd": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy --stage cicd"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.14",
