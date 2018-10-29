@@ -1,0 +1,8 @@
+# Services must include this file as follows:
+# ```
+# custom:
+#   globalConfig: ${file(../globalConfig.yml)}}
+# ```
+# Top Level Project
+name: serverless-multiservice
+deploymentBucket: com.${self:custom.private.company}.${self:custom.private.team}.serverless.${self:provider.region}

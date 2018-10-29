@@ -1,0 +1,32 @@
+service: ${self:custom.globalConfig.name}-ec2manager
+
+plugins:
+  - serverless-webpack
+
+custom:
+  stage: ${opt:stage, self:provider.stage, self:custom.private.stage}
+  private: ${file(../../private.yml)}
+  globalConfig: ${file(../../globalConfig.yml)}
+  webpack:
+    webpackConfig: ../../webpack.config.js
+     
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - "ec2:StartInstances"
+        - "ec2:StopInstances"
+      Resource: "arn:aws:ec2:*:*:instance/*"
+
+functions:
+  stopEC2Instances:
+    handler: src/aws/handler.endpoint
+    events:
+      - schedule:
+          rate: cron(0 6 1/1 * ? *) #6am GMT is 7PM NZT 6PM NZT in winter
+          enabled: true
+          input:
+            instanceIds: ['i-0817c3239d7db3d89']

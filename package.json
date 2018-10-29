@@ -6,11 +6,23 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf node_modules && rm -rf src/node_modules",
-    "lint": "tslint 'src/**/*.ts{,x}'",
+    "lint": "tslint 'microservices/**/*.ts{,x}'",
     "test": "jest --config jestconfig.json --coverage --detectOpenHandles",
     "deploy": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy",
-    "deploy:cicd": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy --stage cicd"
+    "deploy:cicd": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy --stage cicd",
+    "root:install": "./build/0.env.sh && ./build/1.install.sh \"Installing Top-Level Project Dependencies\"           .",
+    "root:install:all": "npm run root:install && npm run ec2Manager:install ",
+    "root:deploy:all:cicd": "npm run ec2Manager:deploy:cicd",
+    "root:remove:all": "npm run ec2Manager:remove",
+    "ec2Manager:install": "./build/0.env.sh && ./build/1.install.sh \"Installing EC2 Manager\"  ./microservices/ec2manager",
+    "ec2Manager:deploy": "./build/0.env.sh && ./build/2.sls.sh deploy \"Deploying EC2 Manager\" ./microservices/ec2manager",
+    "ec2Manager:deploy:cicd": "./build/0.env.sh && ./build/2.sls.sh deploy \"Deploying EC2 Manager\" ./microservices/ec2manager cicd",
+    "ec2Manager:remove": "./build/0.env.sh && ./build/2.sls.sh remove \"Removing EC2 Manager\"  ./microservices/ec2manager"
   },
+  "pre-commit": [
+    "test",
+    "lint"
+  ],
   "devDependencies": {
     "@types/aws-lambda": "^8.10.14",
     "@types/jest": "^23.3.7",

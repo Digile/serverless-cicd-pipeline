@@ -1,0 +1,10 @@
+{
+  "name": "ec2manager",
+  "version": "1.0.0",
+  "description": "Provides function to start and stop ec2 instances",
+  "author": "eherrmann",
+  "license": "MIT",
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {}
+}

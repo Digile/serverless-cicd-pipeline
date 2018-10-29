@@ -1,5 +1,5 @@
-import { endpoint } from './handler';
 import createEvent = require('aws-event-mocks');
+import { endpoint } from './handler';
 
 import { Handler } from 'aws-lambda';
 import { generateMockCallback, invokeHandler } from 'lambda-utilities';
@@ -10,14 +10,13 @@ describe('aws/handler', () => {
 
         test('Should return response.', (done) => {
             const event = createEvent({
-                template: 'aws:scheduled',
                 merge: {
                   instanceIds: ['i-0817c3239d7db3d89'],
                   operation: 'STOP',
                   region: 'us-west-2',
                 },
+                template: 'aws:scheduled',
               });
-              console.log(JSON.stringify(event));
             const callback = generateMockCallback((error, result: any) => {
               callback.once();
               const body = JSON.parse(result.body);
