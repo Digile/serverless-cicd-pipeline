@@ -22,4 +22,7 @@ phases:
       - chmod 700 $CODEBUILD_SRC_DIR/build/2.sls.sh
       - head -50 $CODEBUILD_SRC_DIR/build/2.sls.sh
       - npm run root:deploy:all:cicd
-      #TODO run integration and end to end example
+     
+  post_build: #TODO run integration and end to end example
+    commands:
+      - npm run integration

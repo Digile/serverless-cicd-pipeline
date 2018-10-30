@@ -8,6 +8,7 @@
     "clean": "rm -rf node_modules && rm -rf src/node_modules",
     "lint": "tslint 'microservices/**/*.ts{,x}'",
     "test": "jest --config jestconfig.json --coverage --detectOpenHandles",
+    "integration": "jest --config jestconfig.integration.json --coverage --detectOpenHandles",
     "deploy": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy",
     "deploy:cicd": "SLS_DEBUG=* ./node_modules/.bin/serverless deploy --stage cicd",
     "root:install": "./build/0.env.sh && ./build/1.install.sh \"Installing Top-Level Project Dependencies\"           .",

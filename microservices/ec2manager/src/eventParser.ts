@@ -1,7 +1,4 @@
 export function parseEvent(event) {
 
-  return {
-    DryRun: true,
-    InstanceIds: event.instanceIds ? event.instanceIds : [],
-  };
+  return  event.instanceIds ? event.instanceIds : [];
 }
