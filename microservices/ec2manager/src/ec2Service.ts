@@ -1,6 +1,7 @@
 import AWS = require('aws-sdk');
+import EC2Service from './contracts/ec2Service';
 
-export default class EC2Service {
+export default class EC2ServiceI implements EC2Service {
 
     private ec2: AWS.EC2;
 

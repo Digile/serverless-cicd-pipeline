@@ -1,37 +1,29 @@
-import EC2Service from '../ec2Service';
-import { parseEvent } from '../eventParser';
-// modern module syntax
-export async function endpoint(event, context, callback) {
-  const ec2 = new EC2Service();
+import EC2Service from "../contracts/ec2Service";
 
-  const instanceIds = parseEvent(event);
+export class EC2Manager {
 
-  const operation: string = event.operation;
-
-  const response = {
-    body: JSON.stringify({
-      input: event,
-      message: `Hello, Lambda!!`,
-    }),
-    statusCode: 200,
-  };
-
-  try {
-    switch (operation) {
-      case 'Start':
-        ec2.startInstances(instanceIds);
-        break;
-      case 'Stop':
-        ec2.stopInstances(instanceIds);
-        break;
-      default:
-        break;
-    }
-
-  } catch (e) {
-    callback(e, null);
+  constructor() {
+    
   }
 
-  callback(null, response);
+  manageInstances(instanceIds: string[], operation: string , ec2Service: EC2Service){   
+    try {
+      switch (operation) {
+        case 'Start':
+          ec2Service.startInstances(instanceIds);
+          break;
+        case 'Stop':
+          ec2Service.stopInstances(instanceIds);
+          break;
+        default:
+          break;
+      }
+  
+    } catch (e) {
+      //TODO maybe do something here
+      throw e;
+    }
+
+  }
 
 }

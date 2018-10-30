@@ -1,99 +1,49 @@
-import createEvent = require('aws-event-mocks');
-import { endpoint } from './ec2Manager';
+import { EC2Manager } from "./ec2Manager";
+import { generateMockCallback } from "lambda-utilities";
+import { EC2ServiceMock } from "../ec2ServiceMock";
 
-import { Handler } from 'aws-lambda';
-import { generateMockCallback, invokeHandler } from 'lambda-utilities';
-import EC2Service from '../ec2Service';
-
-describe('aws/handler', () => {
-  const stopInstancesFn = jest.spyOn(EC2Service.prototype, 'stopInstances');
-  const startInstancesFn = jest.spyOn(EC2Service.prototype, 'startInstances');
+describe("aws/handler", () => {
+  const stopInstancesFn = jest.spyOn(EC2ServiceMock.prototype, "stopInstances");
+  const startInstancesFn = jest.spyOn(
+    EC2ServiceMock.prototype,
+    "startInstances"
+  );
 
   afterEach(() => {
     stopInstancesFn.mockClear();
     startInstancesFn.mockClear();
   });
 
-  describe('endpoint', () => {
+  describe("ec2Manager", () => {
+    test.each([[{ instanceIds: ["i-0817c3239d7db3d89"], operation: "Stop" }]])(
+      "it should execute stop instance  with valid params",
+      params => {
+        const m = new EC2Manager();
+        const ec2 = new EC2ServiceMock(); // Try to use a mocked Ec2 Service
+        m.manageInstances(params.instanceIds, params.operation, ec2);
+        expect(stopInstancesFn).toBeCalledWith(params.instanceIds);
+      }
+    );
 
-    test('Should return response.', (done) => {
-      const event = createEvent({
-        merge: {
-          instanceIds: ['i-0817c3239d7db3d89'],
-          operation: 'Stop',
-        },
-        template: 'aws:scheduled',
-      });
+    test.each([[{ instanceIds: ["i-0817c3239d7db3d89"], operation: "popo" }]])(
+      "it should not execute invalid operation",
+      params => {
+        const m = new EC2Manager();
+        const ec2 = new EC2ServiceMock(); // Try to use a mocked Ec2 Service
+        m.manageInstances(params.instanceIds, params.operation, ec2);
+        expect(stopInstancesFn).not.toBeCalledWith();
+      }
+    );
 
-      const callback = generateMockCallback((error, result: any) => {
-        callback.once();
-        const body = JSON.parse(result.body);
-        expect(body.message).toBe('Hello, Lambda!!');
-        expect(callback.verify()).toBe(true);
-
-        done();
-      });
-
-      invokeHandler(endpoint as Handler, { event, callback });
+    test.each([
+      [  "Stop" , ["i-0817c3239d7db3d81"] ],
+      [ "Stop" , ["i-0817c3239d7db3d19"] ],
+      [ "Stop", ["i-"], ],
+      [  "Stop", ["jgdfgid"] ]
+    ])(`it should throw error when trying to %s %p invalid instances `, ( operation, instanceIds) => {
+      const m = new EC2Manager();
+      const ec2 = new EC2ServiceMock(); // Try to use a mocked Ec2 Service
+      expect(() => {m.manageInstances(instanceIds, operation, ec2)}).toThrowError();
     });
-  });
-
-  test('test stop instance', (done) => {
-    const event = createEvent({
-      merge: {
-        instanceIds: ['i-0817c3239d7db3d89'],
-        operation: 'Stop',
-      },
-      template: 'aws:scheduled',
-    });
-
-    const callback = generateMockCallback((error, result: any) => {
-      callback.once();
-      expect(stopInstancesFn).toHaveBeenCalled();
-      done();
-    });
-
-    invokeHandler(endpoint as Handler, { event, callback });
-  });
-
-  // TODO: need to fix this test .
-  // test.only('test stop non existing instance', (done) => {
-  //   const event = createEvent({
-  //       merge: {
-  //         instanceIds: ['i-0817c3239d7db3d81'],
-  //         operation: 'Stop',
-  //       },
-  //       template: 'aws:scheduled',
-  //     });
-
-  //   const stopInstancesFn = jest.spyOn(EC2Service.prototype,'stopInstances');
-
-  //   const callback = generateMockCallback((error, result: any) => {
-  //     callback.once();
-  //     expect(stopInstancesFn).toThrowError();
-  //     done();
-  //   });
-
-  //   invokeHandler(endpoint as Handler, { event, callback });
-
-  // });
-
-  test('test invalid operation ', (done) => {
-    const event = createEvent({
-      merge: {
-        instanceIds: ['i-0817c3239d7db3d89'],
-        operation: 'invalid op',
-      },
-      template: 'aws:scheduled',
-    });
-
-    const callback = generateMockCallback((error, result: any) => {
-      callback.once();
-      expect(stopInstancesFn).not.toHaveBeenCalled();
-      expect(startInstancesFn).not.toHaveBeenCalled();
-      done();
-    });
-
-    invokeHandler(endpoint as Handler, { event, callback });
   });
 });
