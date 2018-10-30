@@ -1,5 +1,5 @@
 import createEvent = require('aws-event-mocks');
-import { endpoint } from './handler';
+import { endpoint } from './ec2Manager';
 
 import { Handler } from 'aws-lambda';
 import { generateMockCallback, invokeHandler } from 'lambda-utilities';
