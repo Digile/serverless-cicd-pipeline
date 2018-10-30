@@ -2,17 +2,17 @@ import AWS = require('aws-sdk');
 
 export default class EC2Service {
 
-    ec2 : AWS.EC2;
-    
+    private ec2: AWS.EC2;
+
     constructor() {
-        this.ec2  = new AWS.EC2({apiVersion: '2016-11-15', region: 'us-west-2'});    
+        this.ec2  = new AWS.EC2({apiVersion: '2016-11-15', region: 'us-west-2'});
     }
 
-    public startInstances( instanceIDs: Array<string> ) {
+    public startInstances( instanceIDs: string[]) {
 
         const params = {
             DryRun: true,
-            InstanceIds : instanceIDs
+            InstanceIds : instanceIDs,
         };
 
         this.ec2.startInstances(params, (err, data) => {
@@ -26,18 +26,16 @@ export default class EC2Service {
                   }
               });
 
-            }
-            else {
+            } else {
                 throw err;
             }
         });
     }
 
-    public async stopInstances ( instanceIDs: Array<string> ) {
-
+    public async stopInstances(instanceIDs: string[]) {
         const params = {
             DryRun: true,
-            InstanceIds : instanceIDs
+            InstanceIds : instanceIDs,
         };
 
         this.ec2.stopInstances(params, (err, data) => {
@@ -51,8 +49,7 @@ export default class EC2Service {
                   }
               });
 
-            }
-            else {
+            } else {
                 return err;
             }
         });
