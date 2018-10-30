@@ -23,7 +23,7 @@ provider:
 
 functions:
   stopEC2Instances:
-    handler: src/aws/handler.endpoint
+    handler: src/aws/ec2Service.endpoint
     events:
       - schedule:
           rate: cron(0 6 1/1 * ? *) #6am GMT is 7PM NZT 6PM NZT in winter
