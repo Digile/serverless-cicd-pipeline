@@ -10,7 +10,6 @@
         "semicolon": [true, "always"],
         "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
         "no-console": [false]
-
     },
     "rulesDirectory": []
 }

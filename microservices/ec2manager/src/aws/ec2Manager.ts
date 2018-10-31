@@ -1,12 +1,8 @@
-import EC2Service from "../contracts/ec2Service";
+import EC2Service from '../contracts/ec2Service';
 
 export class EC2Manager {
 
-  constructor() {
-    
-  }
-
-  manageInstances(instanceIds: string[], operation: string , ec2Service: EC2Service){   
+  public manageInstances(instanceIds: string[], operation: string , ec2Service: EC2Service) {
     try {
       switch (operation) {
         case 'Start':
@@ -18,12 +14,10 @@ export class EC2Manager {
         default:
           break;
       }
-  
     } catch (e) {
-      //TODO maybe do something here
+      // TODO maybe do something here
       throw e;
     }
 
   }
-
 }

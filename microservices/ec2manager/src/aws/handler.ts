@@ -1,6 +1,8 @@
-import EC2ServiceI from "../ec2Service";
-import { parseEvent } from "../eventParser";
-import { EC2Manager } from "./ec2Manager";
+import EC2ServiceI from '../ec2Service';
+
+import { EC2Manager } from './ec2Manager';
+
+import { parseEvent } from '../eventParser';
 
 export async function endpoint(event, context, callback) {
   const manager = new EC2Manager();
@@ -15,12 +17,11 @@ export async function endpoint(event, context, callback) {
 
     const response = {
       body: JSON.stringify({
-        //input: event,
-        message: `Hello, Lambda!!`
+        input: event,
+        message: `Hello, Lambda!!`,
       }),
-      statusCode: 200
+      statusCode: 200,
     };
-
     callback(null, response);
   } catch (e) {
     callback(e, null);

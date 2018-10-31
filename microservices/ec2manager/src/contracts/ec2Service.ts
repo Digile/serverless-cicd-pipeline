@@ -1,5 +1,5 @@
 export default interface EC2Service {
 
-    startInstances(instanceIds : String[]);
-    stopInstances(instanceIds : String[]);
+    startInstances(instanceIds: string[]);
+    stopInstances(instanceIds: string[]);
 }
